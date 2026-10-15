@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Paste Time Namer 설치 및 사용 매뉴얼</title>
+  <style>
+    body { max-width: 820px; margin: 48px auto; padding: 0 24px 64px; color: #242424; font: 15px/1.7 Arial, "Malgun Gothic", sans-serif; }
+    h1 { font-size: 30px; margin-bottom: 8px; } h2 { margin-top: 36px; border-bottom: 1px solid #ddd; padding-bottom: 8px; }
+    code { background: #f1f1f1; border-radius: 4px; padding: 2px 5px; } li { margin: 7px 0; }
+    .box { padding: 16px 18px; border-radius: 8px; background: #f4f7ff; border: 1px solid #cbd8ff; }
+    .warning { background: #fff8e6; border-color: #efd38a; }
+  </style>
+</head>
+<body>
+  <h1>Paste Time Namer</h1>
+  <p>Figma에 붙여넣은 이미지 레이어의 이름을 붙여넣기 시각으로 자동 변경하는 팀용 로컬 플러그인입니다.</p>
+
+  <div class="box"><strong>이름 형식</strong><br><code>YYYY-MM-DD HH.mm.ss.SSS</code> — 예: <code>2026-08-24 15.42.09.137</code></div>
+
+  <h2>1. 설치 전 준비</h2>
+  <ul>
+    <li>Figma Desktop 앱이 필요합니다. 브라우저 버전에서는 로컬 개발 플러그인을 처음 등록할 수 없습니다.</li>
+    <li>전달받은 ZIP 파일을 원하는 고정 위치에 압축 해제합니다.</li>
+  </ul>
+
+  <h2>2. 설치 방법</h2>
+  <ol>
+    <li>Figma Desktop을 실행하고 디자인 파일을 엽니다.</li>
+    <li>Figma 메뉴에서 <strong>Plugins → Development → Import plugin from manifest…</strong>를 선택합니다.</li>
+    <li>압축을 푼 폴더 안의 <code>manifest.json</code>을 선택합니다.</li>
+    <li>플러그인 목록에 <strong>Paste Time Namer</strong>가 표시되면 설치가 완료된 것입니다.</li>
+  </ol>
+  <div class="box warning"><strong>중요:</strong> 설치 후 플러그인 폴더를 이동하거나 삭제하면 Figma가 실행 파일을 찾지 못합니다. 폴더 위치를 바꿨다면 기존 개발 플러그인을 제거한 뒤 다시 가져오세요.</div>
+
+  <h2>3. 사용 방법</h2>
+  <ol>
+    <li>디자인 파일에서 <strong>Plugins → Development → Paste Time Namer</strong>를 실행합니다.</li>
+    <li>플러그인 창에 “이미지 붙여넣기를 감시하고 있습니다”가 표시되는지 확인합니다.</li>
+    <li>클립보드의 이미지를 Figma 캔버스 또는 기존 레이어에 붙여넣습니다.</li>
+    <li>새 이미지 레이어 또는 이미지 Fill이 변경된 레이어의 이름이 붙여넣기 시각으로 자동 변경됩니다.</li>
+  </ol>
+  <ul>
+    <li><strong>자동 변경 중지</strong>: 자동 이름 변경을 일시 중지합니다.</li>
+    <li><strong>자동 변경 시작</strong>: 중지한 자동 이름 변경을 다시 시작합니다.</li>
+    <li><strong>선택 항목 지금 명명</strong>: 선택한 이미지 레이어를 현재 시각으로 즉시 명명합니다.</li>
+  </ul>
+
+  <h2>4. 동작 범위와 주의사항</h2>
+  <ul>
+    <li>플러그인 창을 열어 둔 동안에만 자동 변경이 동작합니다.</li>
+    <li>일반 도형이나 텍스트처럼 이미지 Fill이 없는 레이어는 변경하지 않습니다.</li>
+    <li>같은 초에 붙여넣은 여러 이미지를 구분할 수 있도록 밀리초까지 이름에 포함합니다.</li>
+    <li>외부 서버나 인터넷으로 이미지 또는 문서 데이터를 전송하지 않습니다.</li>
+  </ul>
+
+  <h2>5. 문제 해결</h2>
+  <ul>
+    <li><strong>플러그인이 목록에 없음:</strong> Figma Desktop에서 <code>manifest.json</code>을 다시 가져옵니다.</li>
+    <li><strong>자동 변경이 안 됨:</strong> 플러그인 창이 열려 있고 “감시하고 있습니다” 상태인지 확인합니다.</li>
+    <li><strong>파일을 찾을 수 없다는 오류:</strong> 배포 폴더가 이동 또는 삭제되었는지 확인한 후 다시 가져옵니다.</li>
+    <li><strong>기존 이름으로 되돌리기:</strong> 이름 변경 직후 Figma의 Undo(<code>Ctrl+Z</code> 또는 <code>⌘Z</code>)를 사용합니다.</li>
+  </ul>
+
+  <p><small>팀 내부 배포용 · Paste Time Namer</small></p>
+</body>
+</html>
