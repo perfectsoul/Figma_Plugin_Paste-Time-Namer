@@ -1,0 +1,10 @@
+{
+  "name": "figma-plugin-paste-time-namer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Figma plugin that names image layers using unique local timestamps.",
+  "scripts": {
+    "check": "node --check code.js",
+    "test": "node --test tests/code.test.cjs"
+  }
+}

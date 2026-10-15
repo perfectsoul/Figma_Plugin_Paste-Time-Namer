@@ -14,6 +14,7 @@
 </head>
 <body>
   <h1>Paste Time Namer</h1>
+  <p><strong>현재 버전: 1.0.0</strong></p>
   <p>Figma에 붙여넣은 이미지 레이어의 이름을 붙여넣기 시각으로 자동 변경하는 팀용 로컬 플러그인입니다.</p>
 
   <div class="box"><strong>이름 형식</strong><br><code>YYYY-MM-DD HH.mm.ss.SSS-N</code> — 예: <code>2026-10-15 15.42.09.137-1</code></div>
@@ -63,6 +64,26 @@
     <li><strong>기존 이름으로 되돌리기:</strong> 이름 변경 직후 Figma의 Undo(<code>Ctrl+Z</code> 또는 <code>⌘Z</code>)를 사용합니다.</li>
   </ul>
 
-  <p><small>팀 내부 배포용 · Paste Time Namer</small></p>
+  <h2>6. 버전 이력</h2>
+  <p>플러그인 버전은 <code>MAJOR.MINOR.PATCH</code> 형식으로 관리합니다. 기존 사용 방식이나 이름 형식과 호환되지 않는 변경은 MAJOR, 호환되는 기능 추가는 MINOR, 버그 수정은 PATCH를 올립니다.</p>
+  <h3>1.0.0 · 2026-10-15</h3>
+  <ul>
+    <li><code>package.json</code>에 플러그인 버전을 등록하고 시맨틱 버저닝을 시작했습니다.</li>
+    <li>README와 이 매뉴얼에 현재 버전 및 버전 관리 절차를 추가했습니다.</li>
+    <li>현재 버전에는 이미지 자동 명명, 자동 변경 중지·시작, 선택 이미지 수동 명명, 밀리초 뒤 일련번호를 이용한 이름 충돌 방지 기능이 포함되어 있습니다.</li>
+  </ul>
+  <h3>버전 도입 이전 · 2026-10-15 · cffa301</h3>
+  <ul>
+    <li>이름 형식을 <code>YYYY-MM-DD HH.mm.ss.SSS-N</code>으로 변경하고, 같은 밀리초 및 기존 레이어 이름과의 충돌을 방지했습니다.</li>
+    <li>초기 문서 검색이 완료되기 전에는 수동 명명을 기다리도록 했습니다.</li>
+    <li>내부 복사·복제·이미지 가져오기 전에 자동 변경을 중지하는 사용 절차와 회귀 테스트 6개를 추가했습니다.</li>
+  </ul>
+  <h3>버전 도입 이전 · 2026-10-15 · 3d14d2e</h3>
+  <ul>
+    <li>이미지 레이어 생성 및 이미지 Fill 교체 시 로컬 시각으로 이름을 변경하는 플러그인과 설치 매뉴얼을 등록했습니다.</li>
+    <li>자동 변경 중지·시작과 선택 이미지 수동 명명 기능을 제공했습니다.</li>
+  </ul>
+
+  <p><small>팀 내부 배포용 · Paste Time Namer · v1.0.0</small></p>
 </body>
 </html>
