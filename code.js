@@ -1,5 +1,8 @@
 const seenImageHashes = new Map();
+const reservedNames = new Set();
+const timestampCounters = new Map();
 let enabled = true;
+let ready = false;
 
 function imageHashes(node) {
   if (!("fills" in node) || node.fills === figma.mixed || !Array.isArray(node.fills)) return [];
@@ -9,6 +12,7 @@ function imageHashes(node) {
 }
 
 function remember(node) {
+  if (node && !node.removed && "name" in node) reservedNames.add(node.name);
   const hashes = imageHashes(node);
   if (hashes.length) seenImageHashes.set(node.id, hashes.join("|"));
 }
@@ -22,6 +26,19 @@ function localTimestamp(date = new Date()) {
   ].join("");
 }
 
+function uniqueTimestampName(date = new Date()) {
+  const timestamp = localTimestamp(date);
+  let suffix = timestampCounters.get(timestamp) || 0;
+  let name;
+  do {
+    suffix += 1;
+    name = `${timestamp}-${suffix}`;
+  } while (reservedNames.has(name));
+  timestampCounters.set(timestamp, suffix);
+  reservedNames.add(name);
+  return name;
+}
+
 function renameIfImage(node, force = false) {
   if (!node || node.removed || !("name" in node)) return false;
   const hashes = imageHashes(node);
@@ -32,7 +49,8 @@ function renameIfImage(node, force = false) {
   seenImageHashes.set(node.id, signature);
   if (!force && previous === signature) return false;
 
-  node.name = localTimestamp();
+  reservedNames.add(node.name);
+  node.name = uniqueTimestampName();
   return true;
 }
 
@@ -44,6 +62,14 @@ function scanInitialDocument() {
 
 function registerDocumentWatcher() {
   figma.on("documentchange", (event) => {
+    for (const change of event.documentChanges) {
+      const node = change.node;
+      if (!node || node.removed || !("name" in node)) continue;
+      reservedNames.add(node.name);
+      if (change.type === "CREATE" && "findAll" in node) {
+        for (const child of node.findAll()) reservedNames.add(child.name);
+      }
+    }
     if (!enabled) return;
     let renamed = 0;
 
@@ -73,6 +99,10 @@ figma.ui.onmessage = (message) => {
     enabled = Boolean(message.enabled);
     figma.ui.postMessage({ type: "status", enabled });
   } else if (message.type === "rename-selection") {
+    if (!ready) {
+      figma.notify("초기화 중입니다. 잠시 후 다시 시도하세요.");
+      return;
+    }
     let renamed = 0;
     for (const node of figma.currentPage.selection) {
       if (renameIfImage(node, true)) renamed += 1;
@@ -84,6 +114,7 @@ figma.ui.onmessage = (message) => {
 figma.showUI(__html__, { width: 300, height: 188, themeColors: true });
 figma.loadAllPagesAsync().then(() => {
   scanInitialDocument();
+  ready = true;
   registerDocumentWatcher();
   figma.ui.postMessage({ type: "status", enabled });
 }).catch((error) => {
